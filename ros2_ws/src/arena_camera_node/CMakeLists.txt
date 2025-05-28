@@ -48,6 +48,8 @@ find_package(std_msgs REQUIRED)
 find_package(std_srvs REQUIRED)
 find_package(sensor_msgs REQUIRED)
 find_package(arena_sdk REQUIRED)
+find_package(OpenCV REQUIRED)     # 🔹 추가
+find_package(cv_bridge REQUIRED)  # 🔹 추가
 
 # ------------
 # EXPORT DEPS
@@ -105,7 +107,71 @@ find_package(arena_sdk REQUIRED)
 # ROS2 RUN ARENA_CAMERA_NODE <>
 #
 # -----------------------------------------------------------------------------
+set(polar_aolp_dolp polar_aolp_dolp)
 
+# CPP -> EXECUTABLE
+add_executable(${polar_aolp_dolp}
+    src/polarization_aolp_dolp.cpp
+)
+
+# ROS2 DEPENDENCIES
+ament_target_dependencies(${polar_aolp_dolp}
+    rclcpp
+    sensor_msgs
+    cv_bridge
+    arena_sdk
+)
+
+# INCLUDE DIRS (OpenCV 등 외부 경로 필요시 명시)
+target_include_directories(${polar_aolp_dolp}
+  PUBLIC
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include/${PROJECT_NAME}>
+    $<INSTALL_INTERFACE:include>
+)
+
+# LINK OpenCV (필수)
+target_link_libraries(${polar_aolp_dolp} ${OpenCV_LIBS})
+
+# INSTALL EXECUTABLE
+install(TARGETS
+  ${polar_aolp_dolp}
+  DESTINATION lib/${PROJECT_NAME}
+)
+
+set(polar_all polar_all)
+
+# CPP -> EXECUTABLE
+add_executable(${polar_all}
+    src/polarization_all.cpp
+)
+
+# ROS2 DEPENDENCIES
+ament_target_dependencies(${polar_all}
+    rclcpp
+    sensor_msgs
+    cv_bridge
+    arena_sdk
+)
+
+# INCLUDE DIRS (OpenCV 등 외부 경로 필요시 명시)
+target_include_directories(${polar_all}
+  PUBLIC
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include/${PROJECT_NAME}>
+    $<INSTALL_INTERFACE:include>
+)
+
+# LINK OpenCV (필수)
+target_link_libraries(${polar_all} ${OpenCV_LIBS})
+
+# INSTALL EXECUTABLE
+install(TARGETS
+  ${polar_all}
+  DESTINATION lib/${PROJECT_NAME}
+)
+
+# -----------------------------------------------------------------------------
 set(target_name start)
 
 # CPP DEPS
