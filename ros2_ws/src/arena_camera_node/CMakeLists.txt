@@ -107,15 +107,15 @@ find_package(cv_bridge REQUIRED)  # 🔹 추가
 # ROS2 RUN ARENA_CAMERA_NODE <>
 #
 # -----------------------------------------------------------------------------
-set(polar_aolp_dolp polar_aolp_dolp)
+set(save_raw_polarization_matrix save_raw_polarization_matrix)
 
 # CPP -> EXECUTABLE
-add_executable(${polar_aolp_dolp}
-    src/polarization_aolp_dolp.cpp
+add_executable(${save_raw_polarization_matrix}
+    src/save_raw_polarization_matrix.cpp
 )
 
 # ROS2 DEPENDENCIES
-ament_target_dependencies(${polar_aolp_dolp}
+ament_target_dependencies(${save_raw_polarization_matrix}
     rclcpp
     sensor_msgs
     cv_bridge
@@ -123,7 +123,7 @@ ament_target_dependencies(${polar_aolp_dolp}
 )
 
 # INCLUDE DIRS (OpenCV 등 외부 경로 필요시 명시)
-target_include_directories(${polar_aolp_dolp}
+target_include_directories(${save_raw_polarization_matrix}
   PUBLIC
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include/${PROJECT_NAME}>
@@ -131,11 +131,11 @@ target_include_directories(${polar_aolp_dolp}
 )
 
 # LINK OpenCV (필수)
-target_link_libraries(${polar_aolp_dolp} ${OpenCV_LIBS})
+target_link_libraries(${save_raw_polarization_matrix} ${OpenCV_LIBS})
 
 # INSTALL EXECUTABLE
 install(TARGETS
-  ${polar_aolp_dolp}
+  ${save_raw_polarization_matrix}
   DESTINATION lib/${PROJECT_NAME}
 )
 
