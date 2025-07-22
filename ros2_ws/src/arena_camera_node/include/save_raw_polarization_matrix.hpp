@@ -177,10 +177,10 @@ class PolarImageProcessor : public rclcpp::Node
             device->RequeueBuffer(pImage);
             
             // Save images
-            std::string output_dir = "output_images";
+            std::string output_dir = "/home/ailab/git/arena_camera_ros2/images";
             // Create directory if it doesn't exist. Note: C++17 filesystem would be better.
             // This is a simple solution using a system call.
-            mkdir(output_dir.c_str(), 0777);
+            // mkdir(output_dir.c_str(), 0777);
 
             cv::imwrite(output_dir + "/mono_0_"+std::to_string(index)+".png", mono_img_0);
             cv::imwrite(output_dir + "/mono_45_"+std::to_string(index)+".png", mono_img_45);
